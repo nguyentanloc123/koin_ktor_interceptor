@@ -16,12 +16,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModel()
-
+    var jobRequest: Job? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        somethingUsefulOneAsync()
     }
 
     var kJob: Job? = null
