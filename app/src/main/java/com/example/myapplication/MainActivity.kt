@@ -10,13 +10,13 @@ import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import org.koin.androidx.scope.lifecycleScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
+    private val mainViewModel: MainViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,10 +25,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     var kJob: Job? = null
-    private suspend fun runKtor() {
+    private suspend fun runKtor() = coroutineScope {
         val client = HttpClient(CIO)
         val response: HttpResponse = client.get("https://ktor.io/")
-        Toast.makeText(this,response.status.toString(),Toast.LENGTH_SHORT).show()
+        Log.d("test", response.status.toString())
         client.close()
     }
 
