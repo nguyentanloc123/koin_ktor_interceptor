@@ -9,16 +9,26 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import io.ktor.http.*
 import org.koin.dsl.module
 
 val appModule = module {
-    single<HelloRepository> { HelloRepositoryImpl() }
+    //single<HelloRepository> { HelloRepositoryImpl() }
 
     // Simple Presenter Factory
-    factory { MySimplePresenter(get()) }
+    //factory { MySimplePresenter(get()) }
     fun initKtorClient() = HttpClient(Android) {
         install(DefaultRequest) {
             headers.append("Content-Type", "application/json")
+            //url("www.google.com")
+        }
+
+        install(JsonFeature) {
+            acceptContentTypes = listOf(
+                ContentType.parse("application/vnd.any.response+json"),
+                ContentType.parse("application/vnd.any+json")
+            )
+            serializer = GsonSerializer()
         }
         install(JsonFeature) {
             serializer = GsonSerializer()

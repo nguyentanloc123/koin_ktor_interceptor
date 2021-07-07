@@ -1,6 +1,13 @@
 package com.example.myapplication
 
-data class Post(
-    var userName: String?,
-    var age: String?
+@kotlinx.serialization.Serializable
+data class ApiResult<T>(
+    var code: String? = null,
+    var success: Boolean? = null,
+    var data: List<T> ? = null,
+)
+@kotlinx.serialization.Serializable
+data class LeadFollowUp(
+    var id: Int? = null,
+    var name: String? = null
 )

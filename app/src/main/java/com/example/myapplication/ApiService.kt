@@ -14,12 +14,17 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 
 open class ApiService {
-    val client = HttpClient(Android){
-        install(DefaultRequest){
+    val client = HttpClient(Android) {
+        install(DefaultRequest) {
             headers.append("Content-Type", "application/json")
             //url("www.google.com")
         }
-        install(JsonFeature){
+
+        install(JsonFeature) {
+            acceptContentTypes = listOf(
+                ContentType.parse("application/vnd.any.response+json"),
+                ContentType.parse("application/vnd.any+json")
+            )
             serializer = GsonSerializer()
         }
         install(Logging) {
@@ -32,9 +37,9 @@ open class ApiService {
 //                    BearerTokens(accessToken = "hello", refreshToken = "world")
 //                }
 //
-//                refreshTokens { response: HttpResponse ->
-//                    BearerTokens(accessToken = "hello", refreshToken = "world")
-//                }
+////                refreshTokens { response: HttpResponse ->
+////                    BearerTokens(accessToken = "hello", refreshToken = "world")
+////                }
 //            }
 //        }
         engine {
