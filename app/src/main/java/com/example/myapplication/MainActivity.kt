@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 //
     private fun somethingUsefulOneAsync() {
         CoroutineScope(Dispatchers.IO).launch {
-            ktorTest.openData("https://ktor.io/").collect {
+            ktorTest.openData("http://ktor.io/").collect {
                 withContext(Dispatchers.Main) {
                     Log.d("data", it)
                 }
