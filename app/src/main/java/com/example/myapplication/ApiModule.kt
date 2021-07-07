@@ -16,29 +16,28 @@ val appModule = module {
 
     // Simple Presenter Factory
     factory { MySimplePresenter(get()) }
-    fun initKtorClient() = HttpClient(Android){
-        install(DefaultRequest){
+    fun initKtorClient() = HttpClient(Android) {
+        install(DefaultRequest) {
             headers.append("Content-Type", "application/json")
-            url("www.google.com")
         }
-        install(JsonFeature){
+        install(JsonFeature) {
             serializer = GsonSerializer()
         }
         install(Logging) {
             logger = Logger.ANDROID
             level = LogLevel.ALL
         }
-        install(Auth) {
-            bearer {
-                loadTokens {
-                    BearerTokens(accessToken = "hello", refreshToken = "world")
-                }
-
-                refreshTokens { _: HttpResponse ->
-                    BearerTokens(accessToken = "hello", refreshToken = "world")
-                }
-            }
-        }
+//        install(Auth) {
+//            bearer {
+//                loadTokens {
+//                    BearerTokens(accessToken = "hello", refreshToken = "world")
+//                }
+//
+//                refreshTokens { _: HttpResponse ->
+//                    BearerTokens(accessToken = "hello", refreshToken = "world")
+//                }
+//            }
+//        }
         engine {
             connectTimeout = 100_000
             socketTimeout = 100_000
