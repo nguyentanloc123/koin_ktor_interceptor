@@ -11,8 +11,11 @@ import io.ktor.client.engine.cio.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.*
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.scope.lifecycleScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.context.GlobalContext.startKoin
 
 class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModel()
@@ -20,18 +23,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        startKoin {
+            androidLogger()
+            androidContext(this@MainActivity)
+            modules(appModule)
+        }
+        mainViewModel.test()
     }
-
-    var kJob: Job? = null
-    private suspend fun runKtor() = coroutineScope {
-        val client = HttpClient(CIO)
-        val response: HttpResponse = client.get("https://ktor.io/")
-        Log.d("test", response.status.toString())
-        client.close()
-    }
-
-    @DelicateCoroutinesApi
-    private fun somethingUsefulOneAsync() = GlobalScope.async {
-        runKtor()
-    }
+//
+//    var kJob: Job? = null
+//    private suspend fun runKtor() = coroutineScope {
+//        val client = HttpClient(CIO)
+//        val response: HttpResponse = client.get("https://ktor.io/")
+//        Log.d("test", response.status.toString())
+//        client.close()
+//    }
+//
+//    @DelicateCoroutinesApi
+//    private fun somethingUsefulOneAsync() = GlobalScope.async {
+//        runKtor()
+//    }
 }
