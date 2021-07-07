@@ -12,6 +12,10 @@ import io.ktor.client.statement.*
 import org.koin.dsl.module
 
 val appModule = module {
+    single<HelloRepository> { HelloRepositoryImpl() }
+
+    // Simple Presenter Factory
+    factory { MySimplePresenter(get()) }
     fun initKtorClient() = HttpClient(Android){
         install(DefaultRequest){
             headers.append("Content-Type", "application/json")
@@ -30,7 +34,7 @@ val appModule = module {
                     BearerTokens(accessToken = "hello", refreshToken = "world")
                 }
 
-                refreshTokens { response: HttpResponse ->
+                refreshTokens { _: HttpResponse ->
                     BearerTokens(accessToken = "hello", refreshToken = "world")
                 }
             }
@@ -41,6 +45,7 @@ val appModule = module {
         }
     }
     single { initKtorClient() }
+
     // single instance of HelloRepository
 //        single<HelloRepository> { HelloRepositoryImpl() }
 //

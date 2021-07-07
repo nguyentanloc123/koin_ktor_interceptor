@@ -17,7 +17,7 @@ open class ApiService {
     val client = HttpClient(Android){
         install(DefaultRequest){
             headers.append("Content-Type", "application/json")
-            url("www.google.com")
+            //url("www.google.com")
         }
         install(JsonFeature){
             serializer = GsonSerializer()
@@ -26,17 +26,17 @@ open class ApiService {
             logger = Logger.ANDROID
             level = LogLevel.ALL
         }
-        install(Auth) {
-            bearer {
-                loadTokens {
-                    BearerTokens(accessToken = "hello", refreshToken = "world")
-                }
-
-                refreshTokens { response: HttpResponse ->
-                    BearerTokens(accessToken = "hello", refreshToken = "world")
-                }
-            }
-        }
+//        install(Auth) {
+//            bearer {
+//                loadTokens {
+//                    BearerTokens(accessToken = "hello", refreshToken = "world")
+//                }
+//
+//                refreshTokens { response: HttpResponse ->
+//                    BearerTokens(accessToken = "hello", refreshToken = "world")
+//                }
+//            }
+//        }
         engine {
             connectTimeout = 100_000
             socketTimeout = 100_000
