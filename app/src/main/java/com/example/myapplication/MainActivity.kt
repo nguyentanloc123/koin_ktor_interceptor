@@ -1,39 +1,44 @@
 package com.example.myapplication
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.util.Log.DEBUG
 import android.widget.Toast
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.appcompat.app.AppCompatActivity
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import org.koin.androidx.scope.lifecycleScope
+import io.ktor.http.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        var BaseUrl = "http://api-dev.erm1.com"
+    }
+
+    //private val mainViewModel: MainViewModel by viewModel()
+    var jobRequest: Job? = null
+    val firstPresenter: MySimplePresenter by inject()
+    private val ktorTest: HttpClient by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         somethingUsefulOneAsync()
+        //getData()
     }
 
-    var kJob: Job? = null
-    private suspend fun runKtor() {
-        val client = HttpClient(CIO)
-        val response: HttpResponse = client.get("https://ktor.io/")
-        Toast.makeText(this,response.status.toString(),Toast.LENGTH_SHORT).show()
-        client.close()
+    private fun somethingUsefulOneAsync() {
+        runBlocking {
+            ktorTest.getFollowUp()
+        }
     }
 
-    @DelicateCoroutinesApi
-    private fun somethingUsefulOneAsync() = GlobalScope.async {
-        runKtor()
-    }
 }
