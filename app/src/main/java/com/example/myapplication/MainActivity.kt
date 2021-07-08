@@ -31,44 +31,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //mainViewModel.test()
-        //Log.d("Success",firstPresenter.sayHello().toString())
-        //firstPresenter.sayHello()
         somethingUsefulOneAsync()
         //getData()
     }
 
-    //
-//    var kJob: Job? = null
-//    private suspend fun runKtor() = coroutineScope {
-//        ktorTest.get("https://ktor.io/")
-//    }
-//
-
     private fun somethingUsefulOneAsync() {
         runBlocking {
-            ktorTest.loginData()
-        }
-//        CoroutineScope(Dispatchers.IO).launch {
-//            ktorTest.openData("https://ktor.io/").collect {
-//                withContext(Dispatchers.Main) {
-//                    Log.d("data", it)
-//                }
-//            }
-//        }
-    }
-
-    fun HttpClient.openData(url: String): Flow<String> {
-        return flow {
-            val response = request<HttpResponse> {
-                url(url)
-                method = HttpMethod.Get
-            }.response
-            if (response.status.isSuccess()) {
-                Toast.makeText(this@MainActivity, response.toString(), Toast.LENGTH_SHORT).show()
-                emit(response.toString())
-            }
-
+            ktorTest.getFollowUp()
         }
     }
+
 }

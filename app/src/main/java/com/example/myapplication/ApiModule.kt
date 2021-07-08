@@ -20,6 +20,7 @@ val appModule = module {
     fun initKtorClient() = HttpClient(Android) {
         install(DefaultRequest) {
             headers.append("Content-Type", "application/json")
+            headers.append(HttpHeaders.Authorization, "4BVvAD6AnUoNz")
             //url("www.google.com")
         }
 
@@ -40,12 +41,12 @@ val appModule = module {
 //        install(Auth) {
 //            bearer {
 //                loadTokens {
-//                    BearerTokens(accessToken = "hello", refreshToken = "world")
+//                    BearerTokens(accessToken = "Gj6XNg4vjSlzp")
 //                }
 //
-//                refreshTokens { _: HttpResponse ->
-//                    BearerTokens(accessToken = "hello", refreshToken = "world")
-//                }
+////                refreshTokens { _: HttpResponse ->
+////                    BearerTokens(accessToken = "hello", refreshToken = "world")
+////                }
 //            }
 //        }
         engine {
