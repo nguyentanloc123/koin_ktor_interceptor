@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun somethingUsefulOneAsync() {
         runBlocking {
+//            ktorTest.loginData()
             ktorTest.getFollowUp()
         }
     }

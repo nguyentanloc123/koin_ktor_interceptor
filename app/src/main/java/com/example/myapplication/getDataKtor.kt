@@ -14,8 +14,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-
-suspend fun HttpClient.loginData() {
+suspend fun HttpClient.loginData(){
     val url = "$BaseUrl/Auth/login"
     try {
         val response = request<HttpResponse> {
@@ -24,15 +23,14 @@ suspend fun HttpClient.loginData() {
             body = LoginData()
         }.response
         if (response.status.isSuccess()) {
-            Log.d("Success", response.toString())
+            Log.d("Success login", response.status.toString())
         } else {
-            Log.d("Success", response.toString())
+            Log.d("Success login", response.toString())
         }
     } catch (e: Exception) {
         Log.d("ExceptionTest", e.message.toString())
     }
 }
-
 suspend fun HttpClient.getFollowUp(): Flow<ApiResult<LeadFollowUp>> = flow {
     val url = "$BaseUrl/leads/follow-up/new-activities"
     //return flow {
