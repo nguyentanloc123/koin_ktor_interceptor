@@ -10,6 +10,7 @@ import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -20,7 +21,7 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        var BaseUrl = "http://api-dev.erm1.com"
+        var BaseUrl = "http://api.ermservice.com"
     }
 
     //private val mainViewModel: MainViewModel by viewModel()
@@ -30,15 +31,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        somethingUsefulOneAsync()
-        //getData()
+        btn_call_api.setOnClickListener {
+            clickApi()
+        }
+
+
     }
 
-    private fun somethingUsefulOneAsync() {
+    private fun clickApi() {
         runBlocking {
-//            ktorTest.loginData()
-            ktorTest.getFollowUp()
+            saveAuthToken("token")
         }
     }
+
 
 }

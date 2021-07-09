@@ -27,24 +27,13 @@ class UserPreferences(
     val EXAMPLE_COUNTER = stringPreferencesKey("example_counter")
     val authToken: Flow<String> = context.dataStore.data
         .map { preferences ->
-            // No type safety.
             preferences[EXAMPLE_COUNTER] ?: 0
         } as Flow<String>
 
-    suspend fun saveAuthToken(authToken: String) {
+     suspend fun saveAuthToken(authToken: String) {
         appContext.dataStore.edit { settings ->
             val currentCounterValue = settings[EXAMPLE_COUNTER] ?: 0
             settings[EXAMPLE_COUNTER] = authToken
         }
     }
-//    val authToken: Flow<String?>
-//        get() = dataStore.data.map { preferences ->
-//            preferences[KEY_AUTH]
-//        }
-
-//    suspend fun saveAuthToken(authToken: String) {
-//        dataStore.edit { preferences ->
-//            preferences[KEY_AUTH] = authToken
-//        }
-//    }
 }

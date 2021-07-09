@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-class SimpleRepository(val apiService: ApiService) {
+class SimpleRepoqsitory(val apiService: ApiService) {
     suspend fun getFollowUp(): Flow<ApiResult<LeadFollowUp>> = flow {
         val url = "${MainActivity.BaseUrl}/leads/follow-up/new-activities"
         //return flow {
