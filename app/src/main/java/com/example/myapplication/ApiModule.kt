@@ -23,11 +23,16 @@ val appModule = module {
         return UserPreferences(app.applicationContext)
     }
 
+    var userPreferences: UserPreferences? = null
     single { provideSharedPref(androidApplication()) }
     fun initKtorClient() = HttpClient(Android) {
         install(DefaultRequest) {
             headers.append("Content-Type", "application/json")
-            headers.append(HttpHeaders.Authorization, "j27MZ6zKztjOX")
+            headers.append("Device-Type", "android")
+
+            if (!userPreferences?.authToken.toString().isNullOrEmpty()) {
+                headers.append(HttpHeaders.Authorization, "Bearer" + { userPreferences?.authToken })
+            }
             //url("www.google.com")
         }
 
