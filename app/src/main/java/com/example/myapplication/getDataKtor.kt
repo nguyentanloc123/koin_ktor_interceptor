@@ -8,8 +8,10 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -50,7 +52,4 @@ suspend fun HttpClient.getFollowUp(): Flow<ApiResult<LeadFollowUp>> = flow {
     } catch (e: Exception) {
         Log.d("ExceptionTest", e.message.toString())
     }
-
-
-    // }
-}
+}.flowOn(Dispatchers.IO)

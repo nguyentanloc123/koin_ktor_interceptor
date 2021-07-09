@@ -13,6 +13,7 @@ import io.ktor.http.*
 import org.koin.dsl.module
 
 val appModule = module {
+
     //single<HelloRepository> { HelloRepositoryImpl() }
 
     // Simple Presenter Factory
@@ -20,7 +21,10 @@ val appModule = module {
     fun initKtorClient() = HttpClient(Android) {
         install(DefaultRequest) {
             headers.append("Content-Type", "application/json")
-            headers.append(HttpHeaders.Authorization, "4BVvAD6AnUoNz")
+            headers.append(
+                HttpHeaders.Authorization,
+                SharedPreferenceHelper().getSharedPreferenceHelper("App").toString()
+            )
             //url("www.google.com")
         }
 

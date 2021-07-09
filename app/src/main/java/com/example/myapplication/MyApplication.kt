@@ -7,15 +7,16 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 class MyApplication : Application() {
+    companion object {
+        private var sInstance: MyApplication? = null
+        fun getInstance(): MyApplication? {
+            return sInstance
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
-//        GlobalContext.startKoin {
-//            androidContext(this@MyApplication)
-//            modules(module {
-//                modules(appModule)
-//            })
-//        }
+        sInstance = this
         startKoin {
             androidContext(this@MyApplication)
             modules(appModule)

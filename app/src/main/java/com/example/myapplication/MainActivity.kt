@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.lifecycleScope
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,12 +34,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         somethingUsefulOneAsync()
         //getData()
+
+        var test = "loc123456"
+        SharedPreferenceHelper().setSharedPreferenceHelper("App", test)
+        Log.d("testt", SharedPreferenceHelper().getSharedPreferenceHelper("App").toString())
     }
 
     private fun somethingUsefulOneAsync() {
-        runBlocking {
-            ktorTest.getFollowUp()
-        }
     }
 
 }
