@@ -19,7 +19,6 @@ import kotlinx.serialization.json.Json
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
-
     companion object {
         var BaseUrl = "http://api-dev.erm1.com"
     }

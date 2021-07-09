@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.service.autofill.UserData
 import android.util.Log
 import android.widget.Toast
 import com.example.myapplication.MainActivity.Companion.BaseUrl
@@ -14,7 +15,29 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-suspend fun HttpClient.loginData(){
+private val preferences: UserPreferences
+    get() {
+        TODO()
+    }
+suspend fun HttpClient.loginDataWithPreferences() {
+    val url = "$BaseUrl/Auth/login"
+    try {
+        val response = request<User> {
+            url(url)
+            method = HttpMethod.Post
+            body = LoginData()
+        }
+        if (response.accessToken.toString() != "") {
+            Log.d("Success login", response.accessToken)
+            saveAuthToken("token")
+        } else {
+            Log.d("Success", response.toString())
+        }
+    } catch (e: Exception) {
+        Log.d("ExceptionTest", e.message.toString())
+    }
+}
+suspend fun HttpClient.loginData() {
     val url = "$BaseUrl/Auth/login"
     try {
         val response = request<HttpResponse> {
@@ -23,13 +46,16 @@ suspend fun HttpClient.loginData(){
             body = LoginData()
         }.response
         if (response.status.isSuccess()) {
-            Log.d("Success login", response.status.toString())
-        } else {
             Log.d("Success login", response.toString())
+        } else {
+            Log.d("Success", response.toString())
         }
     } catch (e: Exception) {
         Log.d("ExceptionTest", e.message.toString())
     }
+}
+suspend fun saveAuthToken(token: String){
+    preferences.saveAuthToken(token)
 }
 suspend fun HttpClient.getFollowUp(): Flow<ApiResult<LeadFollowUp>> = flow {
     val url = "$BaseUrl/leads/follow-up/new-activities"
@@ -48,7 +74,4 @@ suspend fun HttpClient.getFollowUp(): Flow<ApiResult<LeadFollowUp>> = flow {
     } catch (e: Exception) {
         Log.d("ExceptionTest", e.message.toString())
     }
-
-
-    // }
 }

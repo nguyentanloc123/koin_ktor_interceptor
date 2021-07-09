@@ -1,13 +1,15 @@
 package com.example.myapplication
 
-import android.os.Parcelable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class UserData(
-    @SerialName("id")
-    var id: Int? = null,
-    @SerialName("accessToken")
-    var accessToken: String? = null,
+data class User(
+    var id: Int = 0,
+    var contact: String = "",
+    var accessToken: String = "",
+    var refreshToken: String = "",
+    var apiKey: String = "",
+    var ssoToken: String = "",
+    var appId: String = "appId"
 )
