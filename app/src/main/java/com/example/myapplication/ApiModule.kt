@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.app.Application
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.features.*
@@ -10,21 +11,28 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 val appModule = module {
-
     //single<HelloRepository> { HelloRepositoryImpl() }
 
     // Simple Presenter Factory
     //factory { MySimplePresenter(get()) }
+    fun provideSharedPref(app: Application): UserPreferences {
+        return UserPreferences(app.applicationContext)
+    }
+
+    var userPreferences: UserPreferences? = null
+    single { provideSharedPref(androidApplication()) }
     fun initKtorClient() = HttpClient(Android) {
         install(DefaultRequest) {
             headers.append("Content-Type", "application/json")
-            headers.append(
-                HttpHeaders.Authorization,
-                SharedPreferenceHelper().getSharedPreferenceHelper("App").toString()
-            )
+            headers.append("Device-Type", "android")
+
+            if (!userPreferences?.authToken.toString().isNullOrEmpty()) {
+                headers.append(HttpHeaders.Authorization, "Bearer" + { userPreferences?.authToken })
+            }
             //url("www.google.com")
         }
 
@@ -59,6 +67,7 @@ val appModule = module {
         }
     }
     single { initKtorClient() }
+    single { ApiService(get(), get()) }
 
     // single instance of HelloRepository
 //        single<HelloRepository> { HelloRepositoryImpl() }
