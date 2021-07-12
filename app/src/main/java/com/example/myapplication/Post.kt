@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import kotlinx.serialization.Serializable
+
 @kotlinx.serialization.Serializable
 data class ApiResult<T>(
     var code: String? = null,
@@ -12,3 +14,5 @@ data class LeadFollowUp(
     var id: Int? = null,
     var name: String? = null
 )
+@Serializable
+class EmptyBody()

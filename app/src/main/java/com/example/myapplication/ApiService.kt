@@ -1,8 +1,11 @@
 package com.example.myapplication
 
 import io.ktor.client.*
+import io.ktor.client.engine.android.*
+import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import io.ktor.http.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -10,9 +13,17 @@ class ApiService(val httpClient: HttpClient, val pref: UserPreferences) {
     var formatJson = Json {
         ignoreUnknownKeys = true
     }
-    suspend inline fun <reified T> get(url: String): T {
-        val response: HttpResponse = httpClient.get(url) {
+
+
+    suspend inline fun <reified T> get(url: String, list: List<String> = listOf()): T {
+        var temp: EmptyBody = EmptyBody()
+        val response: HttpResponse = httpClient.post(url) {
+            headers {
+                headers.append(HttpHeaders.Authorization, "Bearer RBMMd6KqNUY0Z")
+            }
+//            body = temp
         }
+
         return formatJson.decodeFromString(response.readText())
     }
 

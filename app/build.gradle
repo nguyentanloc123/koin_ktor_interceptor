@@ -79,4 +79,5 @@ dependencies {
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+
 }
