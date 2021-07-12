@@ -8,6 +8,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -16,24 +18,26 @@ class UserPreferences(
 ) {
     companion object {
         private const val DATA_STORE_NAME = "user_data_store"
-        private val KEY_AUTH = intPreferencesKey("key_auth")
+        private val KEY_AUTH = stringPreferencesKey("key_auth")
     }
+    var loggedInScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
 
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "access_token",scope = loggedInScope)
     private val appContext = context.applicationContext
-
-    //    private val dataStore: DataStore<Preferences>
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "accesstoken")
-
+    val EXAMPLE_KEY = stringPreferencesKey("key_auth")
     val EXAMPLE_COUNTER = stringPreferencesKey("example_counter")
     val authToken: Flow<String> = context.dataStore.data
         .map { preferences ->
-            preferences[EXAMPLE_COUNTER] ?: 0
-        } as Flow<String>
+            preferences[EXAMPLE_COUNTER] ?: ""
+        }
 
-     suspend fun saveAuthToken(authToken: String) {
-        appContext.dataStore.edit { settings ->
-            val currentCounterValue = settings[EXAMPLE_COUNTER] ?: 0
-            settings[EXAMPLE_COUNTER] = authToken
+    suspend fun saveAuthToken(authToken: String) {
+        appContext.dataStore.edit { preferences ->
+            preferences.clear()
+            val currentCounterValue = preferences[EXAMPLE_COUNTER] ?: ""
+            preferences[EXAMPLE_COUNTER] = authToken
         }
     }
+
+
 }

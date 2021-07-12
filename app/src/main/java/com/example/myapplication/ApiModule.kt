@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.app.Application
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.features.*
@@ -11,14 +12,12 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.client.engine.okhttp.*
+import okhttp3.internal.addHeaderLenient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 val appModule = module {
-    //single<HelloRepository> { HelloRepositoryImpl() }
-
-    // Simple Presenter Factory
-    //factory { MySimplePresenter(get()) }
     fun provideSharedPref(app: Application): UserPreferences {
         return UserPreferences(app.applicationContext)
     }
@@ -33,7 +32,6 @@ val appModule = module {
             if (!userPreferences?.authToken.toString().isNullOrEmpty()) {
                 headers.append(HttpHeaders.Authorization, "Bearer" + { userPreferences?.authToken })
             }
-            //url("www.google.com")
         }
 
         install(JsonFeature) {
@@ -50,28 +48,27 @@ val appModule = module {
             logger = Logger.ANDROID
             level = LogLevel.ALL
         }
-//        install(Auth) {
-//            bearer {
-//                loadTokens {
-//                    BearerTokens(accessToken = "Gj6XNg4vjSlzp")
-//                }
-//
-////                refreshTokens { _: HttpResponse ->
-////                    BearerTokens(accessToken = "hello", refreshToken = "world")
-////                }
-//            }
-//        }
-        engine {
-            connectTimeout = 100_000
-            socketTimeout = 100_000
-        }
+
+
     }
+
     single { initKtorClient() }
     single { ApiService(get(), get()) }
+}
+val loggedInModule = module {
+    single { UserPreferences(get()) }
+}
 
-    // single instance of HelloRepository
-//        single<HelloRepository> { HelloRepositoryImpl() }
-//
-//        // Simple Presenter Factory
-//        factory { MySimplePresenter(get()) }
+
+val module1 = module {
+    fun initHttp() = HttpClient(OkHttp) {
+        engine {
+
+            config {
+                followRedirects(true)
+            }
+            addNetworkInterceptor(StethoInterceptor())
+        }
+    }
+    single { initHttp() }
 }

@@ -44,5 +44,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    suspend fun saveAuthToken(token: String) {
+        UserPreferences(this).saveAuthToken(token)
+    }
+
+    suspend fun getAuthToken(): String {
+        return UserPreferences(this).authToken.toString()
+    }
+
 
 }

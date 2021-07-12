@@ -16,6 +16,7 @@ class SimpleRepoqsitory(val apiService: ApiService) {
         //return flow {
         try {
             val response: LeadFollowUp = apiService.get(url)
+            val response1 = apiService.get<LeadFollowUp>(url)
             var data = Json.decodeFromString<ApiResult<LeadFollowUp>>(response.toString())
             Log.d("Success", data.toString())
 //            if (response.status.isSuccess()) {

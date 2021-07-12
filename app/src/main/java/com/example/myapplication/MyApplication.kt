@@ -1,10 +1,9 @@
 package com.example.myapplication
 
 import android.app.Application
+import com.facebook.stetho.Stetho
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.GlobalContext
 import org.koin.core.context.startKoin
-import org.koin.dsl.module
 
 class MyApplication : Application() {
 
@@ -18,8 +17,9 @@ class MyApplication : Application() {
 //        }
         startKoin {
             androidContext(this@MyApplication)
-            modules(appModule)
+            modules(appModule,module1,loggedInModule)
         }
+        Stetho.initializeWithDefaults(this);
     }
 
 }
