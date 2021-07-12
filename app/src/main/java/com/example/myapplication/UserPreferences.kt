@@ -28,7 +28,6 @@ class UserPreferences(
         .map { preferences ->
             preferences[EXAMPLE_COUNTER] ?: ""
         }
-
     suspend fun saveAuthToken(authToken: String) {
         appContext.dataStore.edit { preferences ->
             preferences.clear()
