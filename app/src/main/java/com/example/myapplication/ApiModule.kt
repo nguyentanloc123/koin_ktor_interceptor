@@ -68,7 +68,6 @@ val appModule = module {
     }
     single { initKtorClient() }
     single { ApiService(get(), get()) }
-
     // single instance of HelloRepository
 //        single<HelloRepository> { HelloRepositoryImpl() }
 //

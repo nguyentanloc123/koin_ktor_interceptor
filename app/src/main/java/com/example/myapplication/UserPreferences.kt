@@ -2,48 +2,51 @@ package com.example.myapplication
 
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import java.io.IOException
+import kotlin.random.Random
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "accesstoken")
 
 class UserPreferences(
     context: Context
 ) {
     companion object {
         private const val DATA_STORE_NAME = "user_data_store"
-        private val KEY_AUTH = intPreferencesKey("key_auth")
     }
+    var loggedInScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
 
+    private object PreferenceKeys {
+        val name = stringPreferencesKey("accesstoken")
+    }
     private val appContext = context.applicationContext
 //    private val dataStore: DataStore<Preferences>
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "accesstoken")
-
-    val EXAMPLE_COUNTER = stringPreferencesKey("example_counter")
-    val authToken: Flow<String> = context.dataStore.data
-        .map { preferences ->
-            // No type safety.
-            preferences[EXAMPLE_COUNTER] ?: 0
-        } as Flow<String>
 
     suspend fun saveAuthToken(authToken: String) {
         appContext.dataStore.edit { settings ->
-            val currentCounterValue = settings[EXAMPLE_COUNTER] ?: 0
-            settings[EXAMPLE_COUNTER] = authToken
+            settings[PreferenceKeys.name] = Random.nextInt(100000000).toString()
+            Log.d("test",settings.toString())
         }
     }
-//    val authToken: Flow<String?>
-//        get() = dataStore.data.map { preferences ->
-//            preferences[KEY_AUTH]
-//        }
-
-//    suspend fun saveAuthToken(authToken: String) {
-//        dataStore.edit { preferences ->
-//            preferences[KEY_AUTH] = authToken
-//        }
-//    }
+    val authToken: Flow<String> = context.dataStore.data
+        .catch { exception ->
+            if(exception is IOException){
+                Log.d("DataStore", exception.message.toString())
+                emit(emptyPreferences())
+            }else {
+                throw exception
+            }
+        }
+        .map { preference ->
+            val myName = preference[PreferenceKeys.name] ?: "none"
+            myName
+        }
 }
