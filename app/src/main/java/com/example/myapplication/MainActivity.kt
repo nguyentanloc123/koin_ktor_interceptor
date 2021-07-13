@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import io.ktor.client.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
@@ -32,19 +31,24 @@ class MainActivity : AppCompatActivity() {
         btn_call_api.setOnClickListener {
             mainViewModel.test()
         }
+        btn_save_access_token.setOnClickListener{
+            clickSaveAuthToken()
+        }
     }
 
-    private fun clickApi() {
-
+    private fun clickSaveAuthToken() {
+        runBlocking {
+            saveAuthToken("RBMMkJyKEhY0Z")
+        }
     }
 
     suspend fun saveAuthToken(token: String) {
         UserPreferences(this).saveAuthToken(token)
     }
 
-    suspend fun getAuthToken(): String {
-        return UserPreferences(this).authToken.toString()
-    }
-
+//    suspend fun getAuthToken(): String {
+//        return UserPreferences(this).authToken.toString()
+//    }
+//
 
 }

@@ -12,7 +12,7 @@ class SimpleRepository(val apiService: ApiService) {
     suspend fun getFollowUp(): Flow<ApiResult<LeadFollowUp>> = flow {
         val url = "${MainActivity.BaseUrl}/leads/follow-up/new-activities"
         try {
-            val response: ApiResult<LeadFollowUp> = apiService.get(url)
+            val response: ApiResult<LeadFollowUp> = apiService.post(url)
             var data = Json.decodeFromString<ApiResult<LeadFollowUp>>(response.toString())
             Log.d("Success", data.toString())
             if (response.success == true) {
@@ -22,6 +22,4 @@ class SimpleRepository(val apiService: ApiService) {
             Log.d("ExceptionTest", e.message.toString())
         }
     }
-
-
 }

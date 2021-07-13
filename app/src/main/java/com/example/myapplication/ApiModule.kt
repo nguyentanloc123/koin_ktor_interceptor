@@ -12,6 +12,7 @@ import io.ktor.http.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.features.json.serializer.*
 import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
@@ -64,7 +65,7 @@ val appModule = module {
     single { SimpleRepository(get()) }
     single { initKtorClient() }
     single { ApiService(initKtorClient(), get()) }
-    single { MainViewModel(get()) }
+    viewModel { MainViewModel(get()) }
 }
 val loggedInModule = module {
     single { UserPreferences(get()) }

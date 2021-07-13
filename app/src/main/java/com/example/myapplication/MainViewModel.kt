@@ -10,8 +10,6 @@ import kotlinx.coroutines.launch
 
 
 class MainViewModel(private val repository: SimpleRepository) : ViewModel() {
-    //private val repository = UserPreferences(application)
-    //val readFromDataStore = repository.authToken.asLiveData()
     private var _testState =
         MutableStateFlow<ApiResult<LeadFollowUp>>(ApiResult())
     val testState: StateFlow<ApiResult<LeadFollowUp>>
@@ -25,9 +23,5 @@ class MainViewModel(private val repository: SimpleRepository) : ViewModel() {
 //        runBlocking {
 //            repoqsitory.getFollowUp()
 //        }
-    }
-    fun log()
-    {
-        Log.d("test","testttt")
     }
 }
