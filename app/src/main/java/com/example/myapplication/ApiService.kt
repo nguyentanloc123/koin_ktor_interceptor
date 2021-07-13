@@ -1,10 +1,10 @@
 package com.example.myapplication
 
 import io.ktor.client.*
-import io.ktor.client.engine.android.*
-import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import io.ktor.content.*
+import io.ktor.features.*
 import io.ktor.http.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -19,17 +19,17 @@ class ApiService(val httpClient: HttpClient, val pref: UserPreferences) {
         var temp: EmptyBody = EmptyBody()
         val response: HttpResponse = httpClient.post(url) {
             headers {
-                headers.append(HttpHeaders.Authorization, "Bearer RBMMd6KqNUY0Z")
+                append("Authorization", "Bearer 2paam4Kl6u5pl")
             }
-//            body = temp
+            body = TextContent(temp.toString(), contentType = ContentType.Application.Json)
         }
-
         return formatJson.decodeFromString(response.readText())
     }
 
     suspend inline fun <reified T> post(url: String, request: Any): T {
-        val response: HttpResponse = httpClient.post(url) {
+        val response: HttpResponse = httpClient.request {
             body = request
+            method = HttpMethod.Post
         }
         return formatJson.decodeFromString(response.readText())
     }

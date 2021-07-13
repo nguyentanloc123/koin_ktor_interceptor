@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.app.Application
 import androidx.compose.foundation.shape.CircleShape
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.engine.cio.*
@@ -15,10 +16,14 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.client.engine.okhttp.*
+import io.ktor.client.features.json.serializer.*
 import io.ktor.features.*
+import io.ktor.request.*
+import io.ktor.util.pipeline.*
 import okhttp3.internal.addHeaderLenient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
+
 
 val appModule = module {
     fun provideSharedPref(app: Application): UserPreferences {
@@ -28,38 +33,45 @@ val appModule = module {
     var userPreferences: UserPreferences? = null
     single { provideSharedPref(androidApplication()) }
     fun initKtorClient() = HttpClient(Android) {
-//        install(DefaultRequest) {
-//            //header("Content-Type", "application/json; charset=UTF-8")
-//            //contentType(ContentType.Application.Json)
-////            headers {
-////                //append("Content-Type", "application/json; charset=UTF-8")
-////                append(
-////                    HttpHeaders.UserAgent,
-////                    "ERM Dev 1.0, QSR1.190920.001, Google Android SDK built for x86 Android 10"
-////                )
-////                append("Device-Type", "android")
-////            }
-////            if (!userPreferences?.authToken.toString().isNullOrEmpty()) {
-////            }
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+                prettyPrint = true
+                isLenient = true
+                ignoreUnknownKeys = true
+            })
+        }
+
+//        defaultRequest {
+//            header("Content-Type", "application/json; charset=UTF-8")
 //        }
 
+        install(DefaultRequest) {
+            contentType(ContentType.Application.Json)
+            headers {
+                //append("Content-Type", "application/json; charset=UTF-8")
+                append(
+                    HttpHeaders.UserAgent,
+                    "ERM Dev 1.0, QSR1.190920.001, Google Android SDK built for x86 Android 10"
+                )
+                append("Device-Type", "android")
+            }
+        }
 
-//        install(JsonFeature) {
-//            acceptContentTypes = listOf(
-//
-//                ContentType.parse("application/vnd.any.response+json"),
-//                ContentType.parse("application/vnd.any+json")
-//            )
-//            serializer = GsonSerializer()
-//        }
-////        install(JsonFeature) {
-//            serializer = GsonSerializer()
-//        }
+
+        install(JsonFeature) {
+            acceptContentTypes = listOf(
+
+                ContentType.parse("application/vnd.any.response+json"),
+                ContentType.parse("application/vnd.any+json")
+            )
+            serializer = GsonSerializer()
+        }
         install(Logging) {
             logger = Logger.ANDROID
             level = LogLevel.ALL
         }
 //        engine {
+//            ContentType.Application.Json
 //            connectTimeout = 100_000
 //            socketTimeout = 100_000
 //        }

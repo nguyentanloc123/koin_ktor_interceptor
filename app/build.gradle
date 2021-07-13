@@ -51,11 +51,14 @@ dependencies {
     implementation("io.ktor:ktor-client-android:1.6.1")
     implementation "io.ktor:ktor-client-auth:1.6.1"
     implementation("io.ktor:ktor-client-gson:1.6.1")
+    implementation("io.ktor:ktor-client-jackson:1.6.1")
+
     implementation "io.ktor:ktor-client-logging-jvm:1.6.1"
     implementation "io.ktor:ktor-client-logging:1.6.1"
     implementation "io.insert-koin:koin-core:3.1.0"
     implementation("io.ktor:ktor-client-okhttp:1.6.1")
-
+    implementation("io.ktor:ktor-client-serialization:1.6.1")
+    implementation("io.ktor:ktor-gson:1.6.1")
     implementation "io.insert-koin:koin-core-ext:3.0.2"
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation "io.insert-koin:koin-ktor:3.1.0"
