@@ -17,7 +17,7 @@ class MyApplication : Application() {
 //        }
         startKoin {
             androidContext(this@MyApplication)
-            modules(appModule,loggedInModule)
+            modules(appModule,loggedInModule,module1)
         }
         Stetho.initializeWithDefaults(this);
     }

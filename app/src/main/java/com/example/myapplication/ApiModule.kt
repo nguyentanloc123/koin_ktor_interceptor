@@ -1,26 +1,16 @@
 package com.example.myapplication
 
 import android.app.Application
-import androidx.compose.foundation.shape.CircleShape
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
-import io.ktor.client.engine.cio.*
 import io.ktor.client.features.*
-import io.ktor.client.features.auth.*
-import io.ktor.client.features.auth.providers.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.features.json.serializer.*
-import io.ktor.features.*
-import io.ktor.request.*
-import io.ktor.util.pipeline.*
-import okhttp3.internal.addHeaderLenient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
@@ -70,15 +60,11 @@ val appModule = module {
             logger = Logger.ANDROID
             level = LogLevel.ALL
         }
-//        engine {
-//            ContentType.Application.Json
-//            connectTimeout = 100_000
-//            socketTimeout = 100_000
-//        }
     }
-    single { SimpleRepoqsitory(get()) }
+    single { SimpleRepository(get()) }
     single { initKtorClient() }
     single { ApiService(initKtorClient(), get()) }
+    single { MainViewModel(get()) }
 }
 val loggedInModule = module {
     single { UserPreferences(get()) }
