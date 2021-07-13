@@ -15,13 +15,12 @@ class ApiService(val httpClient: HttpClient, val pref: UserPreferences) {
     }
 
 
-    suspend inline fun <reified T> get(url: String, list: List<String> = listOf()): T {
-        var temp: EmptyBody = EmptyBody()
+    suspend inline fun <reified T> get(url: String, list: Any = EmptyBody()): T {
         val response: HttpResponse = httpClient.post(url) {
             headers {
-                append("Authorization", "Bearer 2paam4Kl6u5pl")
+                append("Authorization", "Bearer QBZZP9MDXCdpx")
             }
-            body = TextContent(temp.toString(), contentType = ContentType.Application.Json)
+            body = list
         }
         return formatJson.decodeFromString(response.readText())
     }

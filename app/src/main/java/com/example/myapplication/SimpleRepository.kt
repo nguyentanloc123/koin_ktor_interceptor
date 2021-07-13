@@ -8,7 +8,6 @@ class SimpleRepoqsitory(val apiService: ApiService) {
     suspend fun getFollowUp() {
         val url = "${MainActivity.BaseUrl}/leads/follow-up/new-activities"
         try {
-            var temp: EmptyBody = EmptyBody()
             val response: ApiResult<LeadFollowUp> = apiService.get(url)
             var data = Json.decodeFromString<ApiResult<LeadFollowUp>>(response.toString())
             Log.d("Success", data.toString())
