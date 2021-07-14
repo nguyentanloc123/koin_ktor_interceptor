@@ -14,10 +14,10 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var BaseUrl = "http://api.ermservice.com"
     }
-    private var _testState =
-        MutableStateFlow<ApiResult<LeadFollowUp>>(ApiResult())
-    val testState: StateFlow<ApiResult<LeadFollowUp>>
-        get() = _testState
+//    private var _testState =
+//        MutableStateFlow<ApiResult<LeadFollowUp>>(ApiResult())
+//    val testState: StateFlow<ApiResult<LeadFollowUp>>
+//        get() = _testState
 
     private val mainViewModel: MainViewModel by viewModel()
     var jobRequest: Job? = null

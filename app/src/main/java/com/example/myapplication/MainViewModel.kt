@@ -10,14 +10,14 @@ import kotlinx.coroutines.launch
 
 
 class MainViewModel(private val repository: SimpleRepository) : ViewModel() {
-    private var _testState =
-        MutableStateFlow<ApiResult<LeadFollowUp>>(ApiResult())
-    val testState: StateFlow<ApiResult<LeadFollowUp>>
-        get() = _testState
+//    private var _testState =
+//        MutableStateFlow<ApiResult<LeadFollowUp>>(ApiResult())
+//    val testState: StateFlow<ApiResult<LeadFollowUp>>
+//        get() = _testState
     fun test() {
        viewModelScope.launch {
            repository.getFollowUp().collect {
-               _testState.value = it
+//               _testState.value = it
            }
        }
 //        runBlocking {

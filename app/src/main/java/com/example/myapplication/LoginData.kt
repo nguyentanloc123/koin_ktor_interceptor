@@ -12,8 +12,8 @@ class LoginData(
     @SerialName("password")
     var password: String = "stoneipa"
 )
-@kotlinx.serialization.Serializable
-data class UserD(
+@Serializable
+data class UserData(
     @SerialName("id")
     var id: Int = 0,
     @SerialName("contact")
@@ -26,6 +26,6 @@ data class UserD(
     var apiKey: String = "",
     @SerialName("ssoToken")
     var ssoToken: String = "",
-    @SerialName("apiKey")
-    var appId: String = "appId"
+    @SerialName("appId")
+    var appId: String = ""
 )
