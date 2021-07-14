@@ -37,7 +37,6 @@ class ApiService(val httpClient: HttpClient, val pref: UserPreferences) : ViewMo
             body = list
         }
         return formatJson.decodeFromString(response.readText())
-        return formatJson.decodeFromString(response.readText())
     }
 
     suspend inline fun <reified T> delete(url: String): T {

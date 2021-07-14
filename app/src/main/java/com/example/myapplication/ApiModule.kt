@@ -73,13 +73,13 @@ val loggedInModule = module {
 
 
 val module1 = module {
-    fun initHttp() = HttpClient(OkHttp) {
-        engine {
-            config {
-                followRedirects(true)
-            }
-            addNetworkInterceptor(StethoInterceptor())
-        }
-    }
-    single { initHttp() }
+//    fun initHttp() = HttpClient(OkHttp) {
+//        engine {
+//            config {
+//                followRedirects(true)
+//            }
+//            addNetworkInterceptor(StethoInterceptor())
+//        }
+//    }
+//    single { initHttp() }
 }

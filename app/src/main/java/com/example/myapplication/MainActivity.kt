@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun clickSaveAuthToken() {
         runBlocking {
-            saveAuthToken("RBMMkJyKEhY0Z")
+            saveAuthToken("l2Q2Qg560cr16")
         }
     }
 
