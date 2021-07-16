@@ -61,21 +61,21 @@ suspend fun getAuthToken(): String {
     return preferences.authToken.toString()
 }
 
-suspend fun HttpClient.getFollowUp(): Flow<ApiResult<LeadFollowUp>> = flow {
-    val url = "$BaseUrl/leads/follow-up/new-activities"
-    //return flow {
-    try {
-        val response = request<HttpResponse> {
-            url(url)
-            method = HttpMethod.Get
-        }.response
-        var dataTexxt = response.readText()
-        var data = Json.decodeFromString<ApiResult<LeadFollowUp>>(dataTexxt)
-        Log.d("Success", data.toString())
-        if (response.status.isSuccess()) {
-            emit(data)
-        }
-    } catch (e: Exception) {
-        Log.d("ExceptionTest", e.message.toString())
-    }
-}
+//suspend fun HttpClient.getFollowUp(): Flow<ApiResult<LeadFollowUp>> = flow {
+//    val url = "$BaseUrl/leads/follow-up/new-activities"
+//    //return flow {
+//    try {
+//        val response = request<HttpResponse> {
+//            url(url)
+//            method = HttpMethod.Get
+//        }.response
+//        var dataTexxt = response.readText()
+//        var data = Json.decodeFromString<ApiResult<LeadFollowUp>>(dataTexxt)
+//        Log.d("Success", data.toString())
+//        if (response.status.isSuccess()) {
+//            emit(data)
+//        }
+//    } catch (e: Exception) {
+//        Log.d("ExceptionTest", e.message.toString())
+//    }
+//}

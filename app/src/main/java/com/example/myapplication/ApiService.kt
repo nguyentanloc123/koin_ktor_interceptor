@@ -3,25 +3,29 @@ package com.example.myapplication
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import io.ktor.content.*
-import io.ktor.features.*
 import io.ktor.http.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-class ApiService(val httpClient: HttpClient, val pref: UserPreferences) {
+class ApiService(
+    val httpClient: HttpClient, val pref: UserPreferences,
+) {
     var formatJson = Json {
         ignoreUnknownKeys = true
+        coerceInputValues = true
+        prettyPrint = true
+        isLenient = true
+        classDiscriminator = "#class"
     }
-
 
     suspend inline fun <reified T> get(url: String, list: Any = EmptyBody()): T {
         val response: HttpResponse = httpClient.post(url) {
             headers {
-                append("Authorization", "Bearer QBZZP9MDXCdpx")
+                append("Authorization", "Bearer Zxax9l47QhXBl")
             }
             body = list
         }
+
         return formatJson.decodeFromString(response.readText())
     }
 

@@ -16,18 +16,19 @@ class MainViewModel(private val repository: SimpleRepository) : ViewModel() {
         MutableStateFlow<ApiResult<LeadFollowUp>>(ApiResult())
     val testState: StateFlow<ApiResult<LeadFollowUp>>
         get() = _testState
+
     fun test() {
-       viewModelScope.launch {
-           repository.getFollowUp().collect {
-               _testState.value = it
-           }
-       }
+        viewModelScope.launch {
+            repository.getFollowUp().collect {
+                _testState.value = it
+            }
+        }
 //        runBlocking {
 //            repoqsitory.getFollowUp()
 //        }
     }
-    fun log()
-    {
-        Log.d("test","testttt")
+
+    fun log() {
+        Log.d("test", "testttt")
     }
 }
